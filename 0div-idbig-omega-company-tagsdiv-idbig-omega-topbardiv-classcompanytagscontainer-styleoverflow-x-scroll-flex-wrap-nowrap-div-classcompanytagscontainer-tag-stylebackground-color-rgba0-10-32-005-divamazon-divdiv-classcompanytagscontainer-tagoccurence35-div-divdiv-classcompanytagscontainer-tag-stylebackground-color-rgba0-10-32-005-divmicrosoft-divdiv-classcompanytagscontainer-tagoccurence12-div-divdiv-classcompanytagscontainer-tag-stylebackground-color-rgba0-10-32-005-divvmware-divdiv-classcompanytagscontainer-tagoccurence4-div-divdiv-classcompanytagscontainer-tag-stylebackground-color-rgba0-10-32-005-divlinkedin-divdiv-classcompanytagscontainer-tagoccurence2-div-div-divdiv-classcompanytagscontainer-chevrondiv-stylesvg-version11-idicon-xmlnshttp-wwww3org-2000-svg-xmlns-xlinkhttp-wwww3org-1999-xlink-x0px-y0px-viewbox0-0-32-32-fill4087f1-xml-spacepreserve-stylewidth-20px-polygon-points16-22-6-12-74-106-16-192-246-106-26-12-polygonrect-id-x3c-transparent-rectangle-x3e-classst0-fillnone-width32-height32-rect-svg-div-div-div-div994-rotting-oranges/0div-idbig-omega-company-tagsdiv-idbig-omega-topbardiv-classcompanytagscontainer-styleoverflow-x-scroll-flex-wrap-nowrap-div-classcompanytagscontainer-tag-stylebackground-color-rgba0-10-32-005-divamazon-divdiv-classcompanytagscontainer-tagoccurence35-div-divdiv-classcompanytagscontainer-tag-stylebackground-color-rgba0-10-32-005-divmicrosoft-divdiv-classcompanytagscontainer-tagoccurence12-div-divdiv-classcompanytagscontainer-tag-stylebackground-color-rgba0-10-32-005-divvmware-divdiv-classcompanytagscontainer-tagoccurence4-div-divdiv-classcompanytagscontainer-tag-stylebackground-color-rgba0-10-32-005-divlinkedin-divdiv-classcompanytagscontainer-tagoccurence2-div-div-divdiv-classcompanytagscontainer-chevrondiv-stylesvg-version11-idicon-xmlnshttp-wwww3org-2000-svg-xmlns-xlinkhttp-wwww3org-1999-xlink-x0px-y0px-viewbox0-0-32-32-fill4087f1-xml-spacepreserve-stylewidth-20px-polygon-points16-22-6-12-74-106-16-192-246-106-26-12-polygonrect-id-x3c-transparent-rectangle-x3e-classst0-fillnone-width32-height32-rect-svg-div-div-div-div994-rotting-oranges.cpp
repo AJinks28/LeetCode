@@ -1,50 +1,36 @@
 class Solution {
 public:
-    //we have to use BFS as we need to traverse simultaneously from all 2s
     int orangesRotting(vector<vector<int>>& grid) {
-        int m=grid.size();
-        int n=grid[0].size();
-        queue<pair<int,int>> q;
-        vector<vector<int>> vis(m,vector<int>(n,0));
-        int fresh=0;//to check all oranges are rotten or not
-        
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2){
-                    vis[i][j]=1;
-                    q.push({i,j});
-                }
-                if(grid[i][j]==1) fresh++;
+        //striver wala solution
+         if(grid.empty()) return 0;
+        int m = grid.size(), n = grid[0].size(), t = 0, tot = 0, cnt = 0;
+        queue<pair<int, int>> q;
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
+                if(grid[i][j] != 0) tot++; //total oranges
+                if(grid[i][j] == 2) q.push({i, j});
             }
         }
         
-        int t=0;
-        int dr[]={0,1,0,-1};
-        int dc[]={1,0,-1,0};
+        int dr[4] = {0, 0, 1, -1};
+        int dc[4] = {1, -1, 0, 0};
         
         while(!q.empty()){
-            int sz=q.size();
-            for(int i=0;i<sz;i++){
-                int r=q.front().first;
-                int c=q.front().second;
+            int sz = q.size();
+            cnt += sz; //our count of rotten oranges
+            while(sz--){
+                int r = q.front().first, c = q.front().second;
                 q.pop();
-
-                for(int di=0;di<4;di++){
-                    int nr=r+dr[di];
-                    int nc=c+dc[di];
-                    if(nr>=0 && nc>=0 && nr<m && nc<n && !vis[nr][nc] && grid[nr][nc]==1) {
-                        q.push({nr,nc});
-                        vis[nr][nc]=true;
-                        fresh--;
-                    }
+                for(int i = 0; i < 4; ++i){
+                    int nr = r + dr[i], nc = c + dc[i];
+                    if(nr < 0 || nc < 0 || nr >= m || nc >= n || grid[nr][nc] != 1) continue;
+                    grid[nr][nc] = 2;
+                    q.push({nr, nc});
                 }
             }
-            t++;
+            if(!q.empty()) t++;//if q is empty at last we will not add in t
         }
         
-        if(fresh>0) return -1;
-        if(t==0) return 0;
-        return t-1;
-        
+        return tot == cnt ? t : -1;
     }
 };
