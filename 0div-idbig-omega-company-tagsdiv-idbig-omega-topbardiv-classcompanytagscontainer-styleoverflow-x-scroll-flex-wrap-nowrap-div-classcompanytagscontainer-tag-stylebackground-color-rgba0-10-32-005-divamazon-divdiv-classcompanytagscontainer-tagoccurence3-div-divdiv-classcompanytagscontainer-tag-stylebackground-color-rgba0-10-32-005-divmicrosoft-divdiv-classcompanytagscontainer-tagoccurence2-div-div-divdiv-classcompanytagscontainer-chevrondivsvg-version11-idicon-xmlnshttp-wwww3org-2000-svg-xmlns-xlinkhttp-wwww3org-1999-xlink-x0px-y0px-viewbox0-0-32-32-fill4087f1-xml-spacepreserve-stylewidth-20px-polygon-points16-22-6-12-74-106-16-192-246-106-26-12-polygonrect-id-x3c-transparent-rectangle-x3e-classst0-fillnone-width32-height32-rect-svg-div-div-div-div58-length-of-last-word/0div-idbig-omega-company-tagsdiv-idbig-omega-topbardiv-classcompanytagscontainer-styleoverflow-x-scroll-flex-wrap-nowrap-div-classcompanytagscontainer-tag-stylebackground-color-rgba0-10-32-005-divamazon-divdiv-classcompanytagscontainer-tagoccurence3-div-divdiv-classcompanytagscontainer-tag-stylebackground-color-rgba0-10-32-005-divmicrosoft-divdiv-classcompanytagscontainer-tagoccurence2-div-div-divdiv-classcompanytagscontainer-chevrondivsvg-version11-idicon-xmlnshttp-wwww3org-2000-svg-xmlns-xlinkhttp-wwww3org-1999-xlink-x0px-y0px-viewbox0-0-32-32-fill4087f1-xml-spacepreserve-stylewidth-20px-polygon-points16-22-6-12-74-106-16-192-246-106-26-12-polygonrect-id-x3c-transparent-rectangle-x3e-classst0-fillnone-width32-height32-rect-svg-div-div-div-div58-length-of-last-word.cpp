@@ -2,13 +2,14 @@ class Solution {
 public:
     int lengthOfLastWord(string s) {
         int n=s.length();
-        int word_cnt=0,cnt=0;
-        
-        for(int i=0;i<n;i++){
-            if(s[i]==' ') cnt=0;
-            else cnt++;
-            if(cnt>0) word_cnt=cnt;
+        int lastIdx=n-1,cnt=0;
+        //to remove spaces at last
+        while(lastIdx>=0 && s[lastIdx]==' ') lastIdx--;
+        //counting last word's length
+        while(lastIdx>=0 && s[lastIdx]!=' '){
+            cnt++;
+            lastIdx--;
         }
-        return word_cnt;
+        return cnt;
     }
 };
