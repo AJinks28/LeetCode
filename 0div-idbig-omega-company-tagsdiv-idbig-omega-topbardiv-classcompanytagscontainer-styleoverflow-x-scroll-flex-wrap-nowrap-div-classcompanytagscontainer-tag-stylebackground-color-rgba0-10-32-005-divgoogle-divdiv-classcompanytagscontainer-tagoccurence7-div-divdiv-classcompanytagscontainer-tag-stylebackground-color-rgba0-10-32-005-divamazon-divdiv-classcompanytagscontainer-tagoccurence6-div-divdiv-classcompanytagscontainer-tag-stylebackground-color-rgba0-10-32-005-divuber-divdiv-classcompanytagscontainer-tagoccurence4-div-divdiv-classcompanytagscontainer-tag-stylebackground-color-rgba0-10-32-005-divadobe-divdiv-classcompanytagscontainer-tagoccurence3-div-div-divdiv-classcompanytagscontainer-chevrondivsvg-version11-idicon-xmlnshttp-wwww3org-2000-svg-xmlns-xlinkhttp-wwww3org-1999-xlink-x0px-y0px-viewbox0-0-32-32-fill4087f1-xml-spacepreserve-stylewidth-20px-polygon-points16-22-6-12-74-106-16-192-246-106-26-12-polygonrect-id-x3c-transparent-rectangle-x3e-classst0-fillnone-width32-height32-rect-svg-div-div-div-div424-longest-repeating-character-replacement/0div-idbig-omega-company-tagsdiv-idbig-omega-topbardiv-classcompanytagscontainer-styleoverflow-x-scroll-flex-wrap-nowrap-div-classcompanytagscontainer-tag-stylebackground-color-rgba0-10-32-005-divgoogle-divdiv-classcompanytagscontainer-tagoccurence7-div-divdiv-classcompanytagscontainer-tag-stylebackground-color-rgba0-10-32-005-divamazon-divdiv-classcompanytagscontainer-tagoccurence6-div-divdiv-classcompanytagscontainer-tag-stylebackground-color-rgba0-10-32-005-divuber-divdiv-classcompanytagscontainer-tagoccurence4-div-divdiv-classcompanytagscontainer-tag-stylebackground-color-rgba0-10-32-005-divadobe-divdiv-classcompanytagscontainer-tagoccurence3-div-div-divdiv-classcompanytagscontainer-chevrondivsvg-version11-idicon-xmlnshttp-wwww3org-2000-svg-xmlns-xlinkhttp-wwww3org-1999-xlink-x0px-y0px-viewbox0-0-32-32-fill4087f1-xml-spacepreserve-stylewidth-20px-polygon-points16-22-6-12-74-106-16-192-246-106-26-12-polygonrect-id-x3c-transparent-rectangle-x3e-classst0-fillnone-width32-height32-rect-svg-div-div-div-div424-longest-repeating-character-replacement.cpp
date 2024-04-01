@@ -2,20 +2,24 @@ class Solution {
 public:
     int characterReplacement(string s, int k) {
         int n=s.size();
-        int count[128];
-        int maxCnt=0; //largest count of a single, unique character in the current window
+        int count[100];
+        int maxFreq=0;
         int ans=0;
+        
         for(int i=0,j=0;j<n;j++){
+            // cout<<"start"<<" "<<i<<" "<<s[i]<<" "<<j<<" "<<s[j]<<" "<<maxFreq<<" "<<ans<<endl;
             count[s[j]]++;
-            maxCnt=max(maxCnt,count[s[j]]);
-            
-        // end-start+1-maxCount is equal to exactly the # of characters that are NOT the character that                 occurs the most in that window. Example: For a window "xxxyz", end-start+1-maxCount would equal               2. (maxCount is 3 and there are 2 characters here, "y" and "z" that are not "x" in the window.)
-            if(j-i+1-maxCnt > k){
+            maxFreq=max(maxFreq,count[s[j]]);
+            //Check for "AAABCDEEEE"
+            //maxCount may be invalid at some points, but this doesn't matter, because it was valid earlier in the string, and all that matters is finding the max window that occurred anywhere in the string. Additionally, it will expand if and only if enough repeating characters appear in the window to make it expand. So whenever it expands, it's a valid expansion.
+            if(j-i+1 - maxFreq >k){
                 count[s[i]]--;
                 i++;
+                
             }
-            
             ans=max(ans,j-i+1);
+            // cout<<"end   "<<i<<" "<<s[i]<<" "<<j<<" "<<s[j]<<" "<<maxFreq<<" "<<ans<<endl;
+            
         }
         return ans;
     }
