@@ -11,7 +11,7 @@ public:
         
         
         char temp=board[i][j];
-        board[i][j]='$';
+        board[i][j]='$';//mark as visited
         
         int di[]={0,1,0,-1};
         int dj[]={1,0,-1,0};
@@ -23,7 +23,7 @@ public:
             if(search(idx+1,_i,_j,board,word)) return true;
         }
         
-        board[i][j]=temp;
+        board[i][j]=temp;//backtrack
         
         return false;
         
