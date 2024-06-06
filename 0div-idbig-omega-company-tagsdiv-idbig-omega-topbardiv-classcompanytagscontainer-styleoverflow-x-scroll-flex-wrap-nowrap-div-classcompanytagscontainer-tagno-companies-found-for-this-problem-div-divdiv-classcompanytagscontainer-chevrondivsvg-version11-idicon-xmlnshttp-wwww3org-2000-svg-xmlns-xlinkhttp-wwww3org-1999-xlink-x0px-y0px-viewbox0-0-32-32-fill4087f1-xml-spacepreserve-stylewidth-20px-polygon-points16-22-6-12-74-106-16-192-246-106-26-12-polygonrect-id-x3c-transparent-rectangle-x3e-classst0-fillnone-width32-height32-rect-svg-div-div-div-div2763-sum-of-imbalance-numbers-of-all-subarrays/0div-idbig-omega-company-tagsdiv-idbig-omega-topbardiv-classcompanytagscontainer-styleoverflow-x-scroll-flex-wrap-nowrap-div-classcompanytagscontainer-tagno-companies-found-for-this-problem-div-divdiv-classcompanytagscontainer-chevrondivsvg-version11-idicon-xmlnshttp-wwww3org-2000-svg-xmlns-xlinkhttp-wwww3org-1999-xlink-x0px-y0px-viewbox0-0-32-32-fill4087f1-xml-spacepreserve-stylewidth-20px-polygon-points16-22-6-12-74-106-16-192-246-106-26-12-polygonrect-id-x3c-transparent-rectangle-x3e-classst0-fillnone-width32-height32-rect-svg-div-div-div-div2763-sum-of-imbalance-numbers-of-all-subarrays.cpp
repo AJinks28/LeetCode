@@ -8,9 +8,10 @@ public:
             int curr=0;
             unordered_set<int> s({nums[i]});
             for(int j=i+1;j<n;j++){
-                if(s.count(nums[j])) ;
-                else if(s.count(nums[j]-1) && s.count(nums[j]+1)) curr--;
+                if(!s.count(nums[j])){
+                 if(s.count(nums[j]-1) && s.count(nums[j]+1)) curr--;
                 else if(!s.empty() && !s.count(nums[j]-1) && !s.count(nums[j]+1)) curr++;
+                }
                 s.insert(nums[j]);
                 res+=curr;
             }
