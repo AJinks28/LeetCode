@@ -4,7 +4,6 @@ public:
         int d=1;
         int sum=0;
         for(int i=0;i<w.size();i++){
-            if(w[i]>cap) return 1e9;
             if(sum+w[i]>cap){
                 d++;
                 sum=w[i];
@@ -17,7 +16,7 @@ public:
         
         int l=1,r=0;
         
-        for(int &w:weights) r+=w;
+        for(int &w:weights) {r+=w;l=max(l,w);}
         while(l<r){
             int mid=l+(r-l)/2;
             
