@@ -8,9 +8,9 @@ public:
                 if(nums[i]>nums[j]){
                     if(dp[i]<dp[j]+1){
                         dp[i]=dp[j]+1;
-                        cnt[i]=0;
+                        cnt[i]=cnt[j];
                     }
-                    if(dp[i]==dp[j]+1){
+                    else if(dp[i]==dp[j]+1){
                         cnt[i]+=cnt[j];
                     }
                 } 
