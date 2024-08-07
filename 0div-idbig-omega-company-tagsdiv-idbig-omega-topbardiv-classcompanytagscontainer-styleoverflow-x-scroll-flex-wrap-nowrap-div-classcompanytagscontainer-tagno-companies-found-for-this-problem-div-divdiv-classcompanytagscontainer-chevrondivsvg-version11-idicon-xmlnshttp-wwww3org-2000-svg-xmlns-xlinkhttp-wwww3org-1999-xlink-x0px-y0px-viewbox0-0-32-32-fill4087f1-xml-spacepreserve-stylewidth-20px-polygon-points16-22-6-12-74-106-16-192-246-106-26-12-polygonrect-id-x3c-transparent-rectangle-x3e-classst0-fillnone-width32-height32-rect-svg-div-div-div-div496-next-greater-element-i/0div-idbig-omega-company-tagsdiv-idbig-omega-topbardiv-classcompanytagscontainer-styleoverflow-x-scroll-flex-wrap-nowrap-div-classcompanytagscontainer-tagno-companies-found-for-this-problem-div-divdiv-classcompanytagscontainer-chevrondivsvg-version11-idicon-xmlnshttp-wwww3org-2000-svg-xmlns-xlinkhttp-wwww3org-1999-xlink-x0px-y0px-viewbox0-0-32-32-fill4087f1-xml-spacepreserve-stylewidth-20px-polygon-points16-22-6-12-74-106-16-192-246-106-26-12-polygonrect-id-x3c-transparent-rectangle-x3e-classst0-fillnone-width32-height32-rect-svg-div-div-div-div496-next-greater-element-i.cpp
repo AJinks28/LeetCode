@@ -4,7 +4,7 @@ public:
         int n1=nums1.size(),n2=nums2.size();
         
         stack<int> st;
-        map<int,int> nge;
+        unordered_map<int,int> nge;
         for(int i=n2-1;i>=0;i--){
             while(!st.empty() && st.top()<nums2[i]) st.pop();
             if(st.empty()) nge[nums2[i]]=-1;
