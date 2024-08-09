@@ -1,71 +1,47 @@
 class Solution {
 public:
     
-    vector<int> findnse(vector<int>& arr){
+    void findne(vector<int>& arr,vector<int>& nse,vector<int>& nge){
         int n=arr.size();
-        stack<pair<int,int>> st;
-        vector<int> nse(n);
+        stack<int> st1,st2;
         
         for(int i=n-1;i>=0;i--){
-            while(!st.empty() && st.top().first>=arr[i]) st.pop();
-            if(st.empty()) nse[i]=n;
-            else nse[i]=st.top().second;
-            st.push({arr[i],i});
+            while(!st1.empty() && arr[st1.top()]>=arr[i]) st1.pop();
+            if(st1.empty()) nse[i]=n;
+            else nse[i]=st1.top();
+            st1.push(i);
+            
+            while(!st2.empty() && arr[st2.top()]<=arr[i]) st2.pop();
+            if(st2.empty()) nge[i]=n;
+            else nge[i]=st2.top();
+            st2.push(i);
         }
         
-        return nse;
     }
-    vector<int> findpse(vector<int>& arr){
+    void findpe(vector<int>& arr,vector<int>& pse,vector<int>& pge){
         int n=arr.size();
-        stack<pair<int,int>> st;
-        vector<int> pse(n);
+        stack<int> st1,st2;
         
         for(int i=0;i<n;i++){
-            while(!st.empty() && st.top().first>arr[i]) st.pop();
-            if(st.empty()) pse[i]=-1;
-            else pse[i]=st.top().second;
-            st.push({arr[i],i});
+            while(!st1.empty() && arr[st1.top()]>arr[i]) st1.pop();
+            if(st1.empty()) pse[i]=-1;
+            else pse[i]=st1.top();
+            st1.push(i);
+            
+            while(!st2.empty() && arr[st2.top()]<arr[i]) st2.pop();
+            if(st2.empty()) pge[i]=-1;
+            else pge[i]=st2.top();
+            st2.push(i);
         }
         
-        return pse;
-    }
-    
-    vector<int> findnge(vector<int>& arr){
-        int n=arr.size();
-        stack<pair<int,int>> st;
-        vector<int> nge(n);
-        
-        for(int i=n-1;i>=0;i--){
-            while(!st.empty() && st.top().first<=arr[i]) st.pop();
-            if(st.empty()) nge[i]=n;
-            else nge[i]=st.top().second;
-            st.push({arr[i],i});
-        }
-        
-        return nge;
-    }
-    vector<int> findpge(vector<int>& arr){
-        int n=arr.size();
-        stack<pair<int,int>> st;
-        vector<int> pge(n);
-        
-        for(int i=0;i<n;i++){
-            while(!st.empty() && st.top().first<arr[i]) st.pop();
-            if(st.empty()) pge[i]=-1;
-            else pge[i]=st.top().second;
-            st.push({arr[i],i});
-        }
-        
-        return pge;
     }
     
     long long subArrayRanges(vector<int>& nums) {
         int n=nums.size();
         
-        vector<int> nse=findnse(nums);
-        vector<int> pse=findpse(nums);
-        vector<int> nge=findnge(nums);
-        vector<int> pge=findpge(nums);
+        vector<int> nse(n),pse(n),nge(n),pge(n);
+        findpe(nums,pse,pge);
+        findne(nums,nse,nge);
         
         long long sum=0;
         for(int i=0;i<n;i++){
