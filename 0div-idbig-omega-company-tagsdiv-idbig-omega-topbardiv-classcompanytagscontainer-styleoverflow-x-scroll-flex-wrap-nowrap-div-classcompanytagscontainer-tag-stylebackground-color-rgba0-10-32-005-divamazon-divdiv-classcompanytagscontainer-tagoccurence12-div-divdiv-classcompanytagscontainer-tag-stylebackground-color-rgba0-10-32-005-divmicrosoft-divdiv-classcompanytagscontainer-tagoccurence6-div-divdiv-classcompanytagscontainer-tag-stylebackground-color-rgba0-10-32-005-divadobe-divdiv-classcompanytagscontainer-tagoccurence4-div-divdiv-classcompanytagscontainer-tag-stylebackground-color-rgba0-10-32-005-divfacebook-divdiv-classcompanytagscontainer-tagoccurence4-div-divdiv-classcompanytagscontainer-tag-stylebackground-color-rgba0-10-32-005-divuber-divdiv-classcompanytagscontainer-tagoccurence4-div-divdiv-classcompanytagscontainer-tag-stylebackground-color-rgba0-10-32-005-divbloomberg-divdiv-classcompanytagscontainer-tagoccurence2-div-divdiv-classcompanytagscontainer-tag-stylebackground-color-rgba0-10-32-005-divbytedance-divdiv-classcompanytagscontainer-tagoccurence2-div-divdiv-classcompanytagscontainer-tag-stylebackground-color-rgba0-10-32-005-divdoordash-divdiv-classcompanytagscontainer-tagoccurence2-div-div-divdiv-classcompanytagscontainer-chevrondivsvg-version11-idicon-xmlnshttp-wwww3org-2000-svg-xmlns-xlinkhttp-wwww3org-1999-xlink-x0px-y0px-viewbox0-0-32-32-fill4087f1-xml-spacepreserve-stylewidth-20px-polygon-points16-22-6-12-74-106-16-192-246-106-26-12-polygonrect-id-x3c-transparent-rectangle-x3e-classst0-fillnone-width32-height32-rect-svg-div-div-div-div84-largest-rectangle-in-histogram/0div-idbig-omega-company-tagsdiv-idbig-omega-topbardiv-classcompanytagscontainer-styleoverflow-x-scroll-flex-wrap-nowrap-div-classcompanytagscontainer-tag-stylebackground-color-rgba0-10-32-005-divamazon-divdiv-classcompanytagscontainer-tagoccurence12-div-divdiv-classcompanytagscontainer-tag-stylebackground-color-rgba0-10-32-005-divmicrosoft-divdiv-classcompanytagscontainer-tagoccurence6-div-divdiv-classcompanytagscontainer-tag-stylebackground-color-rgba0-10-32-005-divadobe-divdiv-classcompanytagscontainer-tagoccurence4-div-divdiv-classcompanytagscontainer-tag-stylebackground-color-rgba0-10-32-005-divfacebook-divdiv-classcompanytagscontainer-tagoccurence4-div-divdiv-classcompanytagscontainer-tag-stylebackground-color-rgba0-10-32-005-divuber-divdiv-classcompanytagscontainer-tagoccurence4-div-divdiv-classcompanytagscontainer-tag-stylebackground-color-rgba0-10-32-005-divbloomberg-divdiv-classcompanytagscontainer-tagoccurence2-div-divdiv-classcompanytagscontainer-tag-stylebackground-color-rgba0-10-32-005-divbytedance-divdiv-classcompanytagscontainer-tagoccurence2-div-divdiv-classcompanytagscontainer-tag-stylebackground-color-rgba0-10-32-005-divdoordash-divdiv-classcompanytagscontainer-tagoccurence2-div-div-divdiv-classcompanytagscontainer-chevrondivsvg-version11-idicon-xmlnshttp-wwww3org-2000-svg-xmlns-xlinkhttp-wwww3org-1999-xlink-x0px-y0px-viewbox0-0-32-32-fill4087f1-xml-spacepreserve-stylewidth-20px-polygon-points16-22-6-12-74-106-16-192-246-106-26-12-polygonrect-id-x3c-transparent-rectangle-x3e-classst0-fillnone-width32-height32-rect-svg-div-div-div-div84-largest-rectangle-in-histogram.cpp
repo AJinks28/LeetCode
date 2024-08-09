@@ -1,58 +1,44 @@
 class Solution {
 public:
-    vector<int> getNSR(vector<int> &height){
-        int n=height.size();
-        stack<int> st;
-        
-        vector<int> NSR(n);
-        for(int i=n-1;i>=0;i--){
-            if(st.empty()) NSR[i]=n;
-            else{
-                while(!st.empty() && height[st.top()]>=height[i]){
-                    st.pop();
-                }
-                if(st.empty()) NSR[i]=n;
-                else NSR[i]=st.top();
-            }
-            st.push(i);
-        }
-        return NSR;
-    }
     
-    vector<int> getNSL(vector<int> &height){
-        int n=height.size();
+    vector<int> findnse(vector<int>& a){
+        int n=a.size();
+        vector<int> nse(n);
         stack<int> st;
         
-        vector<int> NSL(n);
-        for(int i=0;i<n;i++){
-            if(st.empty()) NSL[i]=-1;
-            else{
-                while(!st.empty() && height[st.top()]>=height[i]){
-                    st.pop();
-                }
-                if(st.empty()) NSL[i]=-1;
-                else NSL[i]=st.top();
-            }
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && a[st.top()]>=a[i]) st.pop();
+            if(st.empty()) nse[i]=n;
+            else nse[i]=st.top();
             st.push(i);
         }
-        return NSL;
+        
+        return nse;
     }
-    int largestRectangleArea(vector<int>& height) {
-        int n=height.size();
-         vector<int> NSR=getNSR(height);
-        vector<int> NSL=getNSL(height);
+    vector<int> findpse(vector<int>& a){
+        int n=a.size();
+        vector<int> pse(n);
+        stack<int> st;
         
-        vector<int> width(n);
         for(int i=0;i<n;i++){
-            width[i]=NSR[i]-NSL[i]-1;
+            while(!st.empty() && a[st.top()]>=a[i]) st.pop();
+            if(st.empty()) pse[i]=-1;
+            else pse[i]=st.top();
+            st.push(i);
         }
         
-        int maxArea=0;
+        return pse;
+    }
+    int largestRectangleArea(vector<int>& h) {
+        int n=h.size();
+        
+        vector<int> nse=findnse(h);
+        vector<int> pse=findpse(h);
+        
+        int ans=0;
         for(int i=0;i<n;i++){
-            int area=height[i]*width[i];
-            
-            maxArea=max(maxArea,area);
+            ans=max(ans,(nse[i]-pse[i]-1)*h[i]);
         }
-        return maxArea;
+        return ans;
     }
 };
