@@ -7,7 +7,7 @@ public:
         int i=0,ans=0;
         for(int j=0;j<n;j++){
             if(nums[j]==0) cnt0++;
-            while(cnt0>k){
+            if(cnt0>k){
                 if(nums[i]==0) cnt0--;
                 i++;
             }
