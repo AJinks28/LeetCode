@@ -1,23 +1,25 @@
 class Solution {
 public:
     string removeKdigits(string num, int k) {
-        string ans="";
+        string ans=""; //behave as a Moonotonr stack
         
-        for(char &c:num){
+        for(int i=0;i<num.size();i++){
             
-            while(ans.size() && ans.back()>c && k){
+            while(ans.size() && ans.back()>num[i] && k){
                 ans.pop_back();
                 k--;
             }
-            
-            if(ans.size() || c!='0') ans.push_back(c);
-            //jb ans ki size 0 and c==0 ho tb push nhi krna hai
+            // if(ans.size()==0 && num[i]=='0') continue;
+            ans.push_back(num[i]);
         }
-        //cases like all digits in ascending order, we will pop from back
-         while(ans.size() && k--){
-                ans.pop_back();
-            }
         
-        return (ans=="")?"0":ans;
+        while(ans.size() && k){
+            ans.pop_back();
+            k--;
+        }
+        int i=0;
+        while(ans.size() && ans[i]=='0' )   i++;
+        ans=ans.substr(i,ans.size());
+        return ans=="" ? "0" : ans;
     }
 };
