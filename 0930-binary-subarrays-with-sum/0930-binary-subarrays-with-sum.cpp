@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int goal){
+    int solve(vector<int>& nums, int goal){//Function for subarray sum <= goal
         if(goal<0) return 0;
         int n=nums.size();
         
@@ -22,4 +22,5 @@ public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
         return solve(nums,goal)-solve(nums,goal-1);
     }
+    //solving problem for subarraySum less than equal to goal - subarraySum less than equal to goal-1 
 };
