@@ -11,20 +11,38 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        vector<int> nums;
+        ListNode* slow=head,*fast=head;
         
-        ListNode* temp=head;
-        while(temp){
-            nums.push_back(temp->val);
-            temp=temp->next;
+        //finding middle
+        while(fast->next && fast->next->next){
+            
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        int n=nums.size();
-        int l=0,r=n-1;
-        while(l<=r){
-            if(nums[l]!=nums[r]) return false;
-            l++;
-            r--;
+        
+        
+        //Reversing right half;
+        ListNode* prev=slow,*curr=slow->next,*nxt;
+        prev->next=NULL;
+        while(curr){
+            nxt=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=nxt;
         }
+        
+        //Comparing
+        ListNode* left=head, *right=prev;
+        
+        while(left){
+            // cout<<left->val<<" ";
+            // cout<<right->val<<" ";
+            
+            if(left->val != right->val) return false;
+            left=left->next;
+            right=right->next;
+        }
+        
         return true;
     }
 };
