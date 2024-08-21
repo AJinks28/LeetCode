@@ -2,7 +2,7 @@ class Solution {
 public:
     bool checkValidString(string s) {
         int cmax=0,cmin=0;
-        
+        //storing range {cmin,cmax}
         for(auto c: s){
             if(c=='('){
                 cmax++;
